@@ -1,0 +1,74 @@
+/* Query 1 */
+with top_sales_arists as (
+SELECT Artist.ArtistId,Artist.Name ,sum(InvoiceLine.UnitPrice * InvoiceLine.Quantity) total_sales
+FROM Track
+JOIN Album on Album.AlbumId = Track.AlbumId
+JOIN Artist on Artist.ArtistId = Album.ArtistId
+JOIN InvoiceLine on InvoiceLine.TrackId = Track.TrackId
+GROUP by Artist.ArtistId 
+order by total_sales DESC
+LIMIT 1
+), invoices as (
+SELECT InvoiceLineId, top_sales_arists.Name 
+From InvoiceLine 
+JOIN Track on InvoiceLine.TrackId = Track.TrackId
+JOIN Album on Album.AlbumId = Track.AlbumId
+JOIN top_sales_arists on top_sales_arists.ArtistId = Album.ArtistId
+)
+select Customer.FirstName,customer.LastName ,sum (InvoiceLine.UnitPrice * InvoiceLine.Quantity) AmountSpent, Invoices.Name
+FROM Customer 
+JOIN Invoice on Invoice.CustomerId = Customer.CustomerId
+join InvoiceLine on InvoiceLine.InvoiceId = Invoice.InvoiceId
+-- where InvoiceLineId in invoices
+JOIN invoices on invoices.InvoiceLineId = InvoiceLine.InvoiceLineId
+GROUP by Customer.CustomerId
+ORDER by AmountSpent DESC
+
+/* Query 2 */
+with count_genre_purchase as (SELECT BillingCountry , Genre.Name , sum (InvoiceLine.Quantity) Purchases
+FROM Invoice
+join InvoiceLine on InvoiceLine.InvoiceId = Invoice.InvoiceId
+JOIN Track on InvoiceLine.TrackId = Track.TrackId
+JOIN Genre on Genre.GenreId = Track.GenreId
+GROUP by BillingCountry, Genre.Name
+
+),max_p as(
+SELECT * , max( Purchases) from count_genre_purchase as c_g_p
+GROUP by BillingCountry
+)
+
+SELECT cgp.BillingCountry , cgp.Name ,cgp.Purchases from count_genre_purchase as cgp
+join max_p on cgp.BillingCountry =max_p.BillingCountry and 
+	 cgp.Purchases = max_p.Purchases
+ORDER by cgp.BillingCountry ASC , cgp.Purchases DESC
+
+
+
+/* Query 3 */
+SELECT Artist.Name , count(Artist.ArtistId) count
+FROM Track
+JOIN Genre on Genre.GenreId = Track.GenreId
+JOIN Album on Album.AlbumId = Track.AlbumId
+JOIN Artist on Artist.ArtistId = Album.ArtistId
+where Genre.Name = "Rock"
+GROUP by Artist.ArtistId
+ORDER by count DESC
+limit 10
+
+
+/* Query 4 */
+with ts as (SELECT BillingCountry, FirstName,LastName,sum(Invoice.Total) TotalSpent
+			FROM Customer 
+			JOIN Invoice on Invoice.CustomerId = Customer.CustomerId
+			GROUP by BillingCountry,Customer.CustomerId)
+
+SELECT ts.* 
+FROM ts
+JOIN (SELECT * ,max(ts.TotalSpent)maxTs
+		from ts 
+		GROUP by ts.BillingCountry )as max_ts
+	on ts.BillingCountry = max_ts.BillingCountry
+	and ts.TotalSpent = max_ts.maxTs
+ORDER by TotalSpent DESC
+LIMIT 10
+	

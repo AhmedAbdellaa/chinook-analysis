@@ -1,0 +1,26 @@
+BillingCountry,CustomerId,FirstName,LastName,TotalSpent
+Argentina,56,Diego,Gutiérrez,37.62
+Australia,55,Mark,Taylor,37.62
+Austria,7,Astrid,Gruber,42.62
+Belgium,8,Daan,Peeters,37.62
+Brazil,1,Luís,Gonçalves,39.62
+Canada,3,François,Tremblay,39.62
+Chile,57,Luis,Rojas,46.62
+Czech Republic,6,Helena,Holý,49.62
+Denmark,9,Kara,Nielsen,37.62
+Finland,44,Terhi,Hämäläinen,41.62
+France,43,Isabelle,Mercier,40.62
+Germany,37,Fynn,Zimmermann,43.62
+Hungary,45,Ladislav,Kovács,45.62
+India,58,Manoj,Pareek,38.62
+Ireland,46,Hugh,O'Reilly,45.62
+Italy,47,Lucas,Mancini,37.62
+Netherlands,48,Johannes,Van der Berg,40.62
+Norway,4,Bjørn,Hansen,39.62
+Poland,49,Stanisław,Wójcik,37.62
+Portugal,34,João,Fernandes,39.62
+Spain,50,Enrique,Muñoz,37.62
+Sweden,51,Joakim,Johansson,38.62
+USA,26,Richard,Cunningham,47.62
+United Kingdom,52,Emma,Jones,37.62
+United Kingdom,53,Phil,Hughes,37.62
